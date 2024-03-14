@@ -9,10 +9,6 @@ module.exports = {
   ],
   prefix: "",
   theme: {
-    colors: {
-      basic: "#387ADF",
-      danger: "red",
-    },
     container: {
       center: true,
       padding: "2rem",
@@ -22,6 +18,8 @@ module.exports = {
     },
     extend: {
       colors: {
+        basic: "#387ADF",
+        danger: "red",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
