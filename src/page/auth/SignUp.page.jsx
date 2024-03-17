@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../../components/ui/card";
+import AuthGuard from "../../components/guard/Auth.Guard";
 import { Button } from "../../components/ui/button";
 import { Formik, Form, ErrorMessage } from "formik";
 import { Input } from "../../components/ui/input";
@@ -65,100 +66,102 @@ const SignUpPage = () => {
   }, [data]);
 
   return (
-    <div className="w-3/5 mx-auto  h-full flex justify-center items-center">
-      <Card className="basis-2/4 p-5">
-        <CardHeader className="flex flex-row justify-between mb-5">
-          <CardTitle>Sign Up</CardTitle>
-          <CardDescription className="text-basic">
-            <Link to="/">Already have an account</Link>
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Formik
-            validationSchema={validationSchema}
-            initialValues={initialValue}
-            onSubmit={handleSubmit}
-            validateOnBlur={false}
-            validateOnChange={false}
-          >
-            {({ handleBlur, handleChange, values, isSubmitting }) => (
-              <>
-                <Form className="flex flex-col gap-4">
-                  <Label htmlFor="name">Name</Label>
-                  <Input
-                    onBlur={handleBlur}
-                    value={values.name}
-                    onChange={handleChange}
-                    type="text"
-                    name="name"
-                    id="name"
-                  />
-                  <ErrorMessage
-                    className="text-danger text-sm"
-                    component={"p"}
-                    name="name"
-                  />
-                  <Label htmlFor="email">Email Address</Label>
-                  <Input
-                    onBlur={handleBlur}
-                    value={values.email}
-                    onChange={handleChange}
-                    type="email"
-                    name="email"
-                    id="email"
-                  />
-                  <ErrorMessage
-                    className="text-danger text-sm"
-                    component={"p"}
-                    name="email"
-                  />
-                  <Label htmlFor="password">Password</Label>
-                  <Input
-                    onBlur={handleBlur}
-                    value={values.password}
-                    onChange={handleChange}
-                    type="password"
-                    name="password"
-                    id="password"
-                  />
-                  <ErrorMessage
-                    className="text-danger text-sm"
-                    component={"p"}
-                    name="password"
-                  />
-                  <Label htmlFor="password_confirmation">
-                    Password Confirm
-                  </Label>
-                  <Input
-                    onBlur={handleBlur}
-                    value={values.password_confirmation}
-                    onChange={handleChange}
-                    type="password"
-                    name="password_confirmation"
-                    id="password_confirmation"
-                  />
-                  <ErrorMessage
-                    className="text-danger text-sm"
-                    component={"p"}
-                    name="confirm_password"
-                  />
-                  <Button
-                    disabled={isSubmitting}
-                    type="submit"
-                    className="w-full bg-basic mt-3"
-                  >
-                    Sign Up
-                    {isSubmitting && (
-                      <Loader2 className="ml-2 h-4 w-4 animate-spin" />
-                    )}
-                  </Button>
-                </Form>
-              </>
-            )}
-          </Formik>
-        </CardContent>
-      </Card>
-    </div>
+    <AuthGuard>
+      <div className="w-3/5 mx-auto  h-full flex justify-center items-center">
+        <Card className="basis-2/4 p-5">
+          <CardHeader className="flex flex-row justify-between mb-5">
+            <CardTitle>Sign Up</CardTitle>
+            <CardDescription className="text-basic">
+              <Link to="/">Already have an account</Link>
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Formik
+              validationSchema={validationSchema}
+              initialValues={initialValue}
+              onSubmit={handleSubmit}
+              validateOnBlur={false}
+              validateOnChange={false}
+            >
+              {({ handleBlur, handleChange, values, isSubmitting }) => (
+                <>
+                  <Form className="flex flex-col gap-4">
+                    <Label htmlFor="name">Name</Label>
+                    <Input
+                      onBlur={handleBlur}
+                      value={values.name}
+                      onChange={handleChange}
+                      type="text"
+                      name="name"
+                      id="name"
+                    />
+                    <ErrorMessage
+                      className="text-danger text-sm"
+                      component={"p"}
+                      name="name"
+                    />
+                    <Label htmlFor="email">Email Address</Label>
+                    <Input
+                      onBlur={handleBlur}
+                      value={values.email}
+                      onChange={handleChange}
+                      type="email"
+                      name="email"
+                      id="email"
+                    />
+                    <ErrorMessage
+                      className="text-danger text-sm"
+                      component={"p"}
+                      name="email"
+                    />
+                    <Label htmlFor="password">Password</Label>
+                    <Input
+                      onBlur={handleBlur}
+                      value={values.password}
+                      onChange={handleChange}
+                      type="password"
+                      name="password"
+                      id="password"
+                    />
+                    <ErrorMessage
+                      className="text-danger text-sm"
+                      component={"p"}
+                      name="password"
+                    />
+                    <Label htmlFor="password_confirmation">
+                      Password Confirm
+                    </Label>
+                    <Input
+                      onBlur={handleBlur}
+                      value={values.password_confirmation}
+                      onChange={handleChange}
+                      type="password"
+                      name="password_confirmation"
+                      id="password_confirmation"
+                    />
+                    <ErrorMessage
+                      className="text-danger text-sm"
+                      component={"p"}
+                      name="confirm_password"
+                    />
+                    <Button
+                      disabled={isSubmitting}
+                      type="submit"
+                      className="w-full bg-basic mt-3"
+                    >
+                      Sign Up
+                      {isSubmitting && (
+                        <Loader2 className="ml-2 h-4 w-4 animate-spin" />
+                      )}
+                    </Button>
+                  </Form>
+                </>
+              )}
+            </Formik>
+          </CardContent>
+        </Card>
+      </div>
+    </AuthGuard>
   );
 };
 
