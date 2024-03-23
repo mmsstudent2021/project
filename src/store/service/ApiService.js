@@ -7,6 +7,8 @@ export const ApiService = createApi({
     prepareHeaders: (headers, { getState }) => {
       const token = localStorage.getItem("token");
 
+      console.log("token", token);
+
       if (token) {
         headers.set("authorization", `Bearer ${JSON.parse(token)}`);
       }
@@ -14,5 +16,6 @@ export const ApiService = createApi({
       return headers;
     },
   }),
+  tagTypes: ["contact"],
   endpoints: (builder) => ({}),
 });

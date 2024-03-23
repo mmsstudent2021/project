@@ -66,7 +66,7 @@ const SignUpPage = () => {
   }, [data]);
 
   return (
-    <AuthGuard>
+    <AuthGuard path="/sign_up">
       <div className="w-3/5 mx-auto  h-full flex justify-center items-center">
         <Card className="basis-2/4 p-5">
           <CardHeader className="flex flex-row justify-between mb-5">

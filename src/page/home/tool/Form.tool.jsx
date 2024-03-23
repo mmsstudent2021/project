@@ -1,18 +1,27 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import * as yup from "yup";
 import { Formik, Form, ErrorMessage } from "formik";
 import { Input } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
 import { Button } from "../../../components/ui/button";
-import {} from "../"
+import {
+  useCreateMutation,
+  useUpdateMutation,
+} from "../../../store/service/endpoints/contact.endpoint";
+import { Loader2 } from "lucide-react";
+import { SheetClose } from "../../../components/ui/sheet";
 
-const FormTool = () => {
+const FormTool = ({ editData, handleClose }) => {
+  const CloseRef = useRef();
   const initialValue = {
-    name: "",
-    email: "",
-    phone: "",
-    address: "",
+    name: editData.data?.name || "",
+    email: editData.data?.email || "",
+    phone: editData.data?.phone || "",
+    address: editData.data?.address || "",
   };
+
+  const [fun, { data, isError, isLoading }] = useCreateMutation();
+  const [updateFun, apiData] = useUpdateMutation();
 
   const validationSchema = yup.object({
     name: yup
@@ -31,9 +40,19 @@ const FormTool = () => {
     address: yup.string().required("address is required"),
   });
 
-  const handleSubmit = () => {
-    console.log("Hello World");
+  const handleSubmit = async (value, action) => {
+    if (editData.edit) {
+      await updateFun({ id: editData.data?.id, ...value });
+    } else {
+      await fun(value);
+    }
+    // action.reset();
+    CloseRef.current.click();
   };
+
+  useEffect(() => {
+    console.log("Hello World", data, isError, isLoading);
+  }, [data, isError, isLoading]);
 
   return (
     <div className="h-full">
@@ -114,20 +133,29 @@ const FormTool = () => {
                 </div>
               </div>
               <div className="flex gap-3">
-                <Button
-                  variant="outline"
-                  disabled={isSubmitting}
-                  type="submit"
-                  className="w-full text-basic border-basic mt-3"
-                >
-                  Cancel
-                </Button>
+                <SheetClose ref={CloseRef} className="w-full mt-3">
+                  <Button
+                    variant="outline"
+                    onClick={handleClose}
+                    disabled={isSubmitting}
+                    type="button"
+                    className="w-full text-basic border-basic"
+                  >
+                    Cancel
+                    {isSubmitting && (
+                      <Loader2 className="ml-2 h-4 w-4 animate-spin" />
+                    )}
+                  </Button>
+                </SheetClose>
                 <Button
                   disabled={isSubmitting}
                   type="submit"
                   className="w-full bg-basic mt-3"
                 >
                   Create
+                  {isSubmitting && (
+                    <Loader2 className="ml-2 h-4 w-4 animate-spin" />
+                  )}
                 </Button>
               </div>
             </Form>
